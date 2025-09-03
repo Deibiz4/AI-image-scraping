@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Procesador Automático de Imágenes</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    body { font-family: system-ui, Arial, sans-serif; background:#f6f7fb; color:#1f2937; margin:0; }
+    .container { max-width:1200px; margin:0 auto; padding:24px; }
+    header { margin-bottom:16px; }
+    h1 { margin:0 0 6px 0; font-size:26px; }
+    .sub { color:#6b7280; margin:0; }
+    .panel { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:16px; margin-bottom:16px; }
+    .row { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+    .label { font-weight:600; font-size:14px; color:#374151; }
+    .input { flex:1; min-width:260px; padding:10px 12px; border:1px solid #e5e7eb; border-radius:8px; font-size:14px; }
+    .drop-zone { border:2px dashed #93c5fd; background:#eff6ff; border-radius:12px; padding:32px; text-align:center; cursor:pointer; transition:all .2s; }
+    .drop-zone.dragover { border-color:#2563eb; background:#dbeafe; }
+    .btn { background:#2563eb; color:#fff; border:none; border-radius:8px; padding:10px 14px; font-weight:600; cursor:pointer; }
+    .btn.secondary { background:#111827; }
+    .btn.ghost { background:#fff; color:#111827; border:1px solid #e5e7eb; }
+    .progress { display:flex; align-items:center; gap:12px; }
+    .bar { flex:1; height:10px; background:#e5e7eb; border-radius:999px; overflow:hidden; }
+    .fill { height:100%; width:0%; background:#2563eb; transition:width .2s; }
+    .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(140px,1fr)); gap:10px; }
+    .image-item { border:1px solid #e5e7eb; border-radius:10px; overflow:hidden; background:#fff; }
+    .image-thumb { width:100%; height:110px; object-fit:cover; display:block; }
+    .image-meta { font-size:12px; padding:8px; color:#4b5563; display:flex; justify-content:space-between; }
+    .status { font-size:11px; padding:6px 8px; }
+    .status.completed { color:#065f46; background:#ecfdf5; }
+    .status.pending { color:#92400e; background:#fffbeb; }
+    .hidden { display:none; }
+    table { width:100%; border-collapse:collapse; font-size:14px; }
+    th, td { padding:8px; border-bottom:1px solid #e5e7eb; text-align:left; vertical-align:top; }
+    th { background:#f9fafb; font-weight:700; }
+    .actions { display:flex; gap:10px; flex-wrap:wrap; }
+    .help { color:#6b7280; font-size:12px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Procesador Automático de Imágenes</h1>
+      <p class="sub">Genera CSV con metadatos y tags de Google Vision (sin necesidad de cuenta de empresa)</p>
+    </header>
+
+    <section class="panel">
+      <div class="row">
+        <label class="label" for="visionApiKey">Google Vision API Key</label>
+        <input id="visionApiKey" class="input" type="password" placeholder="Pega aquí tu API key de Vision"/>
+        <button id="processBtn" class="btn">Procesar con Vision</button>
+        <button id="clearBtn" class="btn ghost">Limpiar</button>
+      </div>
+      <p class="help">
+        Consejo: para producción usa un backend proxy y no expongas la key en el navegador. Esta demo es para pruebas rápidas.
+      </p>
+    </section>
+
+    <section class="panel">
+      <div id="dropZone" class="drop-zone">
+        <h3>Arrastra y suelta imágenes aquí o haz click para seleccionar</h3>
+        <p class="help">Formatos: JPG, PNG, WebP, GIF</p>
+        <input id="fileInput" type="file" accept="image/*" multiple hidden/>
+      </div>
+    </section>
+
+    <section id="progressSection" class="panel hidden">
+      <div class="progress">
+        <div class="bar"><div id="progressFill" class="fill"></div></div>
+        <span id="progressText" class="help">Procesando imágenes... 0%</span>
+      </div>
+    </section>
+
+    <section id="previewSection" class="panel hidden">
+      <h3>Imágenes cargadas</h3>
+      <div id="imageGrid" class="grid"></div>
+    </section>
+
+    <section id="resultsSection" class="panel hidden">
+      <div class="actions">
+        <button id="downloadBtn" class="btn secondary">Descargar CSV</button>
+      </div>
+      <div style="overflow:auto;margin-top:10px;">
+        <table>
+          <thead>
+            <tr>
+              <th>image_path</th>
+              <th>title</th>
+              <th>description</th>
+              <th>resolution</th>
+              <th>file_size</th>
+              <th>device_type</th>
+              <th>category_slug</th>
+              <th>tags</th>
+            </tr>
+          </thead>
+          <tbody id="resultsTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

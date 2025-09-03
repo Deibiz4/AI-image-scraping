@@ -1,0 +1,9 @@
+API/Servicio,Análisis_Contenido_Visual,Tags_Basados_Contenido,Facilidad_Implementación,Costo_Aproximado,Calidad_Tags
+Imagga Image Tagging API,Sí - +3000 tags predefinidos,Excelente,Muy fácil - REST API,"1000 imágenes gratis/mes, luego $0.002/imagen",9
+Microsoft Azure Computer Vision,"Sí - Tags, objetos, descripciones",Excelente,Fácil - REST API,"1000 análisis gratis/mes, luego $1/1000",9
+Google Cloud Vision AI,"Sí - Etiquetas, objetos, texto OCR",Excelente,Fácil - REST API,"1000 gratis/mes, luego $1.50/1000",8
+Amazon Rekognition,"Sí - Objetos, escenas, texto",Muy bueno,Fácil - REST API,"5000 gratis/mes, luego $1/1000",8
+IBM Watson Visual Recognition,Sí - Clasificación personalizable,Muy bueno,Moderada,Pricing variable,7
+ExifReader.js (solo metadatos),No - Solo metadatos EXIF,No aplica,Muy fácil - JavaScript,Gratis,0
+PIL/Pillow Python (solo metadatos),No - Solo metadatos básicos,No aplica,Fácil - Python,Gratis,0
+TensorFlow (modelo personalizado),Sí - Con entrenamiento personalizado,Excelente con datos,Difícil - Requiere ML expertise,Costo de entrenamiento + compute,10
